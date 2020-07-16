@@ -27,7 +27,7 @@ type Author struct{
 var books []Book
 
 // Get All Books
-func getBooks(w http.ResponseWriter, r *http.Request){
+func getAllBooks(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type","application/json")
 	json.NewEncoder(w).Encode(books)
 }
@@ -91,7 +91,7 @@ func main(){
 	books = append(books, Book{ID: "1", Isbn: "448743", Title: "Book One", Author : & Author{Firstname: "John", Lastname: "Doe"}})
 	books = append(books, Book{ID: "2", Isbn: "448744", Title: "Book Two", Author : & Author{Firstname: "Steve", Lastname: "Smith"}})
 	
-	r.HandleFunc("/api/books", getBooks).Methods("GET")
+	r.HandleFunc("/api/books", getAllBooks).Methods("GET")
 	r.HandleFunc("/api/books/{id}", getBook).Methods("GET")
 	r.HandleFunc("/api/books", createBook).Methods("POST")
 	r.HandleFunc("/api/books/{id}", updateBook).Methods("PUT")
