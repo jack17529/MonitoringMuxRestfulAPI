@@ -35,8 +35,8 @@ sudo systemctl status grafana-server
 7. Import prometheus as datasource in grafana
 8. Import an already made dashboard.
 
-![alt text]()
-![alt text]()
+![alt text](https://github.com/jack17529/MonitoringMuxRestfulAPI/blob/master/grafana/graph1.png)  
+![alt text](https://github.com/jack17529/MonitoringMuxRestfulAPI/blob/master/grafana/graph2.png)
 
 ## References
 
