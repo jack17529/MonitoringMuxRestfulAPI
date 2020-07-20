@@ -35,6 +35,9 @@ sudo systemctl status grafana-server
 7. Import prometheus as datasource in grafana
 8. Import an already made dashboard.
 
+![alt text]()
+![alt text]()
+
 ## References
 
 1. https://www.keycdn.com/support/popular-curl-examples#:~:text=13.-,GET%20method,request%20GET%20or%20%2DX%20GET%20.
