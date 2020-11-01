@@ -7,11 +7,10 @@ Implemented GET, POST, DELETE and PUT services on a books database using Mux rou
 1. GET request using CURL - `curl -X GET http://localhost:8000/api/books`  
 Response - `[{"id":"1","isbn":"448743","title":"Book One","author":{"firstname":"John","lastname":"Doe"}},{"id":"2","isbn":"448744","title":"Book Two","author":{"firstname":"Steve","lastname":"Smith"}}]`
 
-2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1` 
+2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1`   
 Response - `{"id":"1","isbn":"448743","title":"Book One","author":{"firstname":"John","lastname":"Doe"}}`
 
 3. POST request using CURL - `curl -g -X POST -H "Content-Type: application/json" -d '{"isbn":"4545454","title":"Book Three","author":{"firstname":"Harry",  "lastname":"White"}}' http://localhost:8000/api/books`  
-Response - `{"id":"","isbn":"","title":"","author":null}`
 
 4. DELETE request using CURL - `curl -X "DELETE" http://localhost:8000/api/books/1`  
 Response - `[{"id":"2","isbn":"448744","title":"Book Two","author":{"firstname":"Steve","lastname":"Smith"}},{"id":"7131847","isbn":"4545454","title":"Book Three","author":{"firstname":"Harry","lastname":"White"}}]`
