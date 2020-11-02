@@ -4,20 +4,65 @@ Implemented GET, POST, DELETE and PUT services on a books database using Mux rou
 
 ## API
 
-1. GET request using CURL - `curl -X GET http://localhost:8000/api/books`  
-Response - `[{"id":"1","isbn":"448743","title":"Book One","author":{"firstname":"John","lastname":"Doe"}},{"id":"2","isbn":"448744","title":"Book Two","author":{"firstname":"Steve","lastname":"Smith"}}]`
+1. GET request using CURL - `curl -X GET http://localhost:8000/api/books | jq`  
+Response -  
+```
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   282  100   282    0     0  94000      0 --:--:-- --:--:-- --:--:-- 94000
+[
+  {
+    "id": 1,
+    "isbn": "448743",
+    "title": "Book One",
+    "author": {
+      "firstname": "John",
+      "lastname": "Doe"
+    }
+  },
+  {
+    "id": 2,
+    "isbn": "448744",
+    "title": "Book Two",
+    "author": {
+      "firstname": "Steve",
+      "lastname": "Smith"
+    }
+  },
+  {
+    "id": 3,
+    "isbn": "12345",
+    "title": "Book Three",
+    "author": {
+      "firstname": "Harry",
+      "lastname": "White"
+    }
+  }
+]
+```
 
-2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1` 
-Response - `{"id":"1","isbn":"448743","title":"Book One","author":{"firstname":"John","lastname":"Doe"}}`
+2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1 | jq`  
+Response -  
+```
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    91  100    91    0     0  91000      0 --:--:-- --:--:-- --:--:-- 91000
+{
+  "id": 1,
+  "isbn": "448743",
+  "title": "Book One",
+  "author": {
+    "firstname": "John",
+    "lastname": "Doe"
+  }
+}
+```
 
 3. POST request using CURL - `curl -g -X POST -H "Content-Type: application/json" -d '{"isbn":"4545454","title":"Book Three","author":{"firstname":"Harry",  "lastname":"White"}}' http://localhost:8000/api/books`  
-Response - `{"id":"","isbn":"","title":"","author":null}`
 
 4. DELETE request using CURL - `curl -X "DELETE" http://localhost:8000/api/books/1`  
-Response - `[{"id":"2","isbn":"448744","title":"Book Two","author":{"firstname":"Steve","lastname":"Smith"}},{"id":"7131847","isbn":"4545454","title":"Book Three","author":{"firstname":"Harry","lastname":"White"}}]`
 
 5. PUT request using CURL - `curl -X PUT -H "Content-Type: application/json" -d '{"isbn":"2121212","title":"Updated Title","author":{"firstname":"Charles",  "lastname":"Dickens"}}' http://localhost:8000/api/books/2`  
-Response - `{"id":"2","isbn":"2121212","title":"Updated Title","author":{"firstname":"Charles","lastname":"Dickens"}}`
 
 ## Monitoring
 
