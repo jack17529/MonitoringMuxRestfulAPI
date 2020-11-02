@@ -41,6 +41,7 @@ Response -
 ]
 ```
 
+<<<<<<< HEAD
 2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1 | jq`  
 Response -  
 ```
@@ -57,6 +58,10 @@ Response -
   }
 }
 ```
+=======
+2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1`   
+Response - `{"id":"1","isbn":"448743","title":"Book One","author":{"firstname":"John","lastname":"Doe"}}`
+>>>>>>> 257e5e822a6fcaa0b43ffbf1babb120d10cfb71a
 
 3. POST request using CURL - `curl -g -X POST -H "Content-Type: application/json" -d '{"isbn":"4545454","title":"Book Three","author":{"firstname":"Harry",  "lastname":"White"}}' http://localhost:8000/api/books`  
 
