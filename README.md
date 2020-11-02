@@ -1,6 +1,6 @@
 # MonitoringMuxRestfulAPI
 
-Implemented GET, POST, DELETE and PUT services on a books database using Mux router and Go. Tested it using Postman and CURL. Monitored it using Prometheus and Grafana.
+Implemented GET, POST, DELETE and PUT requests on a books database using gorilla-mux router. Tested it using Postman and CURL. Monitored it using Prometheus and Grafana.
 
 ## API
 
