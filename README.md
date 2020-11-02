@@ -60,9 +60,9 @@ Response -
 
 3. POST request using CURL - `curl -g -X POST -H "Content-Type: application/json" -d '{"isbn":"4545454","title":"Book Three","author":{"firstname":"Harry",  "lastname":"White"}}' http://localhost:8000/api/books`  
 
-4. DELETE request using CURL - `curl -X "DELETE" http://localhost:8000/api/books/1`  
+4. PUT request using CURL - `curl -X PUT -H "Content-Type: application/json" -d '{"isbn":"2121212","title":"Updated Title","author":{"firstname":"Charles",  "lastname":"Dickens"}}' http://localhost:8000/api/books/2`   
 
-5. PUT request using CURL - `curl -X PUT -H "Content-Type: application/json" -d '{"isbn":"2121212","title":"Updated Title","author":{"firstname":"Charles",  "lastname":"Dickens"}}' http://localhost:8000/api/books/2`  
+5. DELETE request using CURL - `curl -X "DELETE" http://localhost:8000/api/books/1`  
 
 ## Monitoring
 
