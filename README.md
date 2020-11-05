@@ -1,68 +1,59 @@
 # MonitoringMuxRestfulAPI
 
-Implemented GET, POST, DELETE and PUT requests on a books database using gorilla-mux router. Tested it using Postman and CURL. Monitored it using Prometheus and Grafana.
+Implemented GET, POST, DELETE and PUT services on a books database using Mux router and Go. Tested it using Postman and CURL. Monitored it using Prometheus and Grafana.
 
 ## API
 
-1. GET request using CURL - `curl -X GET http://localhost:8000/api/books | jq`  
+1. GET request using CURL - `curl http://localhost:8000/api/books -X GET | jq`  
 Response -  
 ```
-% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   282  100   282    0     0  94000      0 --:--:-- --:--:-- --:--:-- 94000
+100   248  100   248    0     0   121k      0 --:--:-- --:--:-- --:--:--  242k
 [
   {
     "id": 1,
-    "isbn": "448743",
-    "title": "Book One",
+    "isbn": "978-0812036381",
+    "title": "Hamlet",
     "author": {
-      "firstname": "John",
-      "lastname": "Doe"
+      "firstname": "William",
+      "lastname": "Shakespeare"
     }
   },
   {
     "id": 2,
-    "isbn": "448744",
-    "title": "Book Two",
+    "isbn": "978-0671027032",
+    "title": "How to Win Friends & Influence People",
     "author": {
-      "firstname": "Steve",
-      "lastname": "Smith"
-    }
-  },
-  {
-    "id": 3,
-    "isbn": "12345",
-    "title": "Book Three",
-    "author": {
-      "firstname": "Harry",
-      "lastname": "White"
+      "firstname": "Dale",
+      "lastname": "Carnegie"
     }
   }
 ]
 ```
 
-2. GET request using CURL - `curl -X GET http://localhost:8000/api/books/1 | jq`  
+2. GET request using CURL - `curl http://localhost:8000/api/books/1 -X GET | jq`  
 Response -  
 ```
-% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100    91  100    91    0     0  91000      0 --:--:-- --:--:-- --:--:-- 91000
+100   108  100   108    0     0   105k      0 --:--:-- --:--:-- --:--:--  105k
 {
   "id": 1,
-  "isbn": "448743",
-  "title": "Book One",
+  "isbn": "978-0812036381",
+  "title": "Hamlet",
   "author": {
-    "firstname": "John",
-    "lastname": "Doe"
+    "firstname": "William",
+    "lastname": "Shakespeare"
   }
 }
 ```
 
-3. POST request using CURL - `curl -g -X POST -H "Content-Type: application/json" -d '{"isbn":"4545454","title":"Book Three","author":{"firstname":"Harry",  "lastname":"White"}}' http://localhost:8000/api/books`  
+3. POST request using CURL - `curl http://localhost:8000/api/books -g -X POST -H "Content-Type: application/json" -d '{"isbn":"978-0060555665","title":"The Intelligent Investor","author":{"firstname":"Benjamin",  "lastname":"Graham"}}'`  
 
-4. PUT request using CURL - `curl -X PUT -H "Content-Type: application/json" -d '{"isbn":"2121212","title":"Updated Title","author":{"firstname":"Charles",  "lastname":"Dickens"}}' http://localhost:8000/api/books/2`   
+4. DELETE request using CURL - `curl http://localhost:8000/api/books/1 -X "DELETE"`  
 
-5. DELETE request using CURL - `curl -X "DELETE" http://localhost:8000/api/books/1`  
+5. PUT request using CURL - `curl http://localhost:8000/api/books/2 -X PUT -H "Content-Type: application/json" -d '{"isbn":"978-1503212831","title":"A Christmas Carol","author":{"firstname":"Charles",  "lastname":"Dickens"}}'`  
 
 ## Monitoring
 

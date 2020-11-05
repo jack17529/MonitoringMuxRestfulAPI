@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"monitoring/data"
 	"net/http"
@@ -64,12 +66,7 @@ func (b *Books) GetBook(w http.ResponseWriter, r *http.Request) {
 func (b *Books) AddBook(w http.ResponseWriter, r *http.Request) {
 	b.l.Println("Handle POST requests")
 
-	bk := &data.Book{}
-
-	err := bk.FromJSON(r.Body)
-	if err != nil {
-		http.Error(w, "unable to unmarshal json", http.StatusBadRequest)
-	}
+	bk := r.Context().Value(KeyBook{}).(*data.Book)
 
 	data.AddBook(bk)
 }
@@ -86,12 +83,7 @@ func (b Books) UpdateBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	bk := &data.Book{}
-
-	err = bk.FromJSON(r.Body)
-	if err != nil {
-		http.Error(w, "unable to unmarshal json", http.StatusBadRequest)
-	}
+	bk := r.Context().Value(KeyBook{}).(*data.Book)
 
 	err = data.UpdateBook(bk, id)
 	if err == data.ErrorBookNotFound {
@@ -135,4 +127,37 @@ func (b *Books) DeleteBook(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Book not found", http.StatusInternalServerError)
 		return
 	}
+}
+
+// we would need a key for context and the recommended type is struct.
+type KeyBook struct{}
+
+func (b *Books) MiddlewareBooksValidation(next http.Handler) http.Handler {
+	return http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			bk := &data.Book{}
+
+			err := bk.FromJSON(r.Body)
+			if err != nil {
+				b.l.Println("[ERROR] deserializing the book", err)
+				http.Error(w, "Error reading the book", http.StatusBadRequest)
+				return
+			}
+
+			// valide the book
+			err = bk.Validate()
+			if err != nil {
+				b.l.Println("[ERROR] validating the book", err)
+				http.Error(w, fmt.Sprintf("Error validating the book: %s", err), http.StatusBadRequest)
+				return
+			}
+
+			// putting it in the request because it has the context.
+			ctx := context.WithValue(r.Context(), KeyBook{}, bk)
+			r = r.WithContext(ctx)
+
+			// Calling the next handler, which can be another middleware in the chain,
+			// or the final handler.
+			next.ServeHTTP(w, r)
+		})
 }

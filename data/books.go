@@ -4,23 +4,32 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+
+	"github.com/go-playground/validator/v10"
 )
 
 // Book Struct
+// isbn can be 10 or 13 digits long.
 type Book struct {
 	ID     int     `json:"id"`
-	Isbn   string  `json:"isbn"`
+	Isbn   string  `json:"isbn" validate:"required,isbn"`
 	Title  string  `json:"title"`
 	Author *Author `json:"author"`
 }
 
-// Author struct
+// Author Struct
 type Author struct {
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`
 }
 
 type Books []*Book
+
+// Implementing Secure Coding Principles.
+func (b *Book) Validate() error {
+	validate := validator.New()
+	return validate.Struct(b)
+}
 
 func (b *Book) FromJSON(r io.Reader) error {
 	dec := json.NewDecoder(r)
@@ -101,14 +110,14 @@ func DeleteBook(id int) error {
 var booksList = []*Book{
 	&Book{
 		ID:     1,
-		Isbn:   "448743",
-		Title:  "Book One",
-		Author: &Author{Firstname: "John", Lastname: "Doe"},
+		Isbn:   "978-0812036381",
+		Title:  "Hamlet",
+		Author: &Author{Firstname: "William", Lastname: "Shakespeare"},
 	},
 	&Book{
 		ID:     2,
-		Isbn:   "448744",
-		Title:  "Book Two",
-		Author: &Author{Firstname: "Steve", Lastname: "Smith"},
+		Isbn:   "978-0671027032",
+		Title:  "How to Win Friends & Influence People",
+		Author: &Author{Firstname: "Dale", Lastname: "Carnegie"},
 	},
 }

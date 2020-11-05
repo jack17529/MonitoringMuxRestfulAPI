@@ -32,9 +32,11 @@ func main() {
 
 	putRouter := r.Methods(http.MethodPut).Subrouter()
 	putRouter.HandleFunc("/api/books/{id:[0-9]+}", bh.UpdateBook)
+	putRouter.Use(bh.MiddlewareBooksValidation)
 
 	postRouter := r.Methods(http.MethodPost).Subrouter()
 	postRouter.HandleFunc("/api/books", bh.AddBook)
+	postRouter.Use(bh.MiddlewareBooksValidation)
 
 	deleteRouter := r.Methods(http.MethodDelete).Subrouter()
 	deleteRouter.HandleFunc("/api/books/{id:[0-9]+}", bh.DeleteBook)
