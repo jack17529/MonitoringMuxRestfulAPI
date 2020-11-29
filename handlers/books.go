@@ -1,3 +1,18 @@
+// Package classification of Book API
+//
+// Documentation for Book API
+//
+//	Schemes: http
+//	BasePath: /
+//	Version: 1.0.0
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+// swagger:meta
 package handlers
 
 import (
@@ -6,132 +21,27 @@ import (
 	"log"
 	"monitoring/data"
 	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 )
 
+type BooksResponse struct {
+}
+
+// Books is a http.Handler
 type Books struct {
 	l *log.Logger
 }
 
+// NewBooks creates a books handler.
 func NewBooks(l *log.Logger) *Books {
 	return &Books{l}
 }
 
 // Note all the below functions should be exported.
 
-// Get All Books
-func (b *Books) GetBooks(w http.ResponseWriter, r *http.Request) {
-	b.l.Println("Handle GET requests")
-
-	lb := data.GetBooks()
-
-	// instead of marshalling we would use encoder.
-	err := lb.ToJSON(w)
-	if err != nil {
-		http.Error(w, "unable to marshal json", http.StatusInternalServerError)
-	}
-}
-
-func (b *Books) GetBook(w http.ResponseWriter, r *http.Request) {
-	b.l.Println("Handle GET requests")
-
-	params := mux.Vars(r)
-	id, err := strconv.Atoi(params["id"])
-	if err != nil {
-		http.Error(w, "Unable to convert id from string to integer", http.StatusBadRequest)
-		return
-	}
-
-	bk, err := data.GetBook(id)
-	if err == data.ErrorBookNotFound {
-		http.Error(w, "Book not found", http.StatusNotFound)
-		return
-	}
-
-	if err != nil {
-		http.Error(w, "Book not found", http.StatusInternalServerError)
-		return
-	}
-
-	// instead of marshalling we would use encoder.
-	err = bk.ToJSONbook(w)
-	if err != nil {
-		http.Error(w, "unable to marshal json", http.StatusInternalServerError)
-	}
-
-}
-
-func (b *Books) AddBook(w http.ResponseWriter, r *http.Request) {
-	b.l.Println("Handle POST requests")
-
-	bk := r.Context().Value(KeyBook{}).(*data.Book)
-
-	data.AddBook(bk)
-}
-
-func (b Books) UpdateBook(w http.ResponseWriter, r *http.Request) {
-	b.l.Println("Handle PUT requests")
-
-	// params is just a map.
-	params := mux.Vars(r)
-	id, err := strconv.Atoi(params["id"])
-
-	if err != nil {
-		http.Error(w, "Unable to convert id from string to integer", http.StatusBadRequest)
-		return
-	}
-
-	bk := r.Context().Value(KeyBook{}).(*data.Book)
-
-	err = data.UpdateBook(bk, id)
-	if err == data.ErrorBookNotFound {
-		http.Error(w, "Book not found", http.StatusNotFound)
-		return
-	}
-
-	if err != nil {
-		http.Error(w, "Book not found", http.StatusInternalServerError)
-		return
-	}
-}
-
-func (b *Books) DeleteBook(w http.ResponseWriter, r *http.Request) {
-	b.l.Println("Handle DELETE requests")
-
-	// params is just a map.
-	params := mux.Vars(r)
-	id, err := strconv.Atoi(params["id"])
-
-	if err != nil {
-		http.Error(w, "Unable to convert id from string to integer", http.StatusBadRequest)
-		return
-	}
-
-	// bk := &data.Book{}
-
-	// // error here.
-	// err = bk.FromJSON(r.Body)
-	// if err != nil {
-	// 	http.Error(w, "unable to unmarshal json", http.StatusBadRequest)
-	// }
-
-	err = data.DeleteBook(id)
-	if err == data.ErrorBookNotFound {
-		http.Error(w, "Book not found", http.StatusNotFound)
-		return
-	}
-
-	if err != nil {
-		http.Error(w, "Book not found", http.StatusInternalServerError)
-		return
-	}
-}
-
-// we would need a key for context and the recommended type is struct.
+// KeyBook is used because we would need a key for context and the recommended type is struct.
 type KeyBook struct{}
 
+// MiddlewareBooksValidation used to validate the book in the request and calls next if everything is ok.
 func (b *Books) MiddlewareBooksValidation(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
