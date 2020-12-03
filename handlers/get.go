@@ -26,6 +26,11 @@ func (b *Books) GetBooks(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// swagger:route GET /api/books/{id} books listSingleBook
+// Return a list of books from the database
+// responses:
+//	200: bookResponse
+
 // GetBook gets a singe book.
 func (b *Books) GetBook(w http.ResponseWriter, r *http.Request) {
 	b.l.Println("Handle GET requests")

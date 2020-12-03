@@ -8,7 +8,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Deletes a single book.
+// swagger:route DELETE /api/books/{id} books deleteBook
+// Returns a list of books
+// responses:
+//	201: noContentResponse
+
+// DeleteBook deletes a single book with a given id.
 func (b *Books) DeleteBook(w http.ResponseWriter, r *http.Request) {
 	b.l.Println("Handle DELETE requests")
 

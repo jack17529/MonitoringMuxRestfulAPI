@@ -8,7 +8,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Updates one book.
+// swagger:route PUT /api/books books updateBook
+// Update a books details
+//
+// responses:
+//	201: noContentResponse
+
+// UpdateBook updates a book
 func (b Books) UpdateBook(w http.ResponseWriter, r *http.Request) {
 	b.l.Println("Handle PUT requests")
 

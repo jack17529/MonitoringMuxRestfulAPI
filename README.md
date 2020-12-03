@@ -1,8 +1,6 @@
 # MonitoringMuxRestfulAPI
 
-Implemented a production ready REST API with GET, POST, DELETE and PUT services on a books database using Gorilla-Mux router.  
-Tested it using Postman and CURL.  
-Monitored it using Prometheus and Grafana.  
+Implemented GET, POST, DELETE and PUT services on a books database using Mux router and Go. Tested it using Postman and CURL. Monitored it using Prometheus and Grafana.
 
 ## API
 
@@ -55,7 +53,13 @@ Response -
 
 4. DELETE request using CURL - `curl http://localhost:8000/api/books/1 -X "DELETE"`  
 
-5. PUT request using CURL - `curl http://localhost:8000/api/books/2 -X PUT -H "Content-Type: application/json" -d '{"isbn":"978-1503212831","title":"A Christmas Carol","author":{"firstname":"Charles",  "lastname":"Dickens"}}'`  
+5. PUT request using CURL - `curl http://localhost:8000/api/books/2 -X PUT -H "Content-Type: application/json" -d '{"isbn":"978-1503212831","title":"A Christmas Carol","author":{"firstname":"Charles",  "lastname":"Dickens"}}'`
+
+## Docs Using Swagger And Hosting Using Redoc
+
+1. `make swagger` to generate swagger.yaml file.
+2. serving the swagger.yaml file to Redoc middlewares.
+3. Getting the docs ready.
 
 ## Monitoring
 
@@ -85,3 +89,4 @@ sudo systemctl status grafana-server
 5. https://banzaicloud.com/blog/monitoring-gin-with-prometheus/
 6. https://prometheus.io/docs/prometheus/latest/getting_started/
 7. https://medium.com/htc-research-engineering-blog/build-a-monitoring-dashboard-by-prometheus-grafana-741a7d949ec2
+8. https://goswagger.io/generate/spec.html

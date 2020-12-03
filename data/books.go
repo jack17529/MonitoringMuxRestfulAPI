@@ -8,16 +8,27 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// Book Struct
+// Book defines the structure for an API Book
 // isbn can be 10 or 13 digits long.
+// swagger:model
 type Book struct {
-	ID     int     `json:"id"`
-	Isbn   string  `json:"isbn" validate:"required,isbn"`
-	Title  string  `json:"title"`
+	// the id of the book
+	// min:1
+	ID int `json:"id"`
+
+	// isbn code of the book
+	// required:true
+	// min:10
+	Isbn string `json:"isbn" validate:"required,isbn"`
+
+	// title of the book
+	Title string `json:"title"`
+
+	// author of the book
 	Author *Author `json:"author"`
 }
 
-// Author Struct
+// Author Structure
 type Author struct {
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`
@@ -25,7 +36,7 @@ type Author struct {
 
 type Books []*Book
 
-// Implementing Secure Coding Principles.
+// Validate method implementing Secure Coding Principles.
 func (b *Book) Validate() error {
 	validate := validator.New()
 	return validate.Struct(b)

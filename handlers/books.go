@@ -1,4 +1,4 @@
-// Package classification of Book API
+// Package classification Book API
 //
 // Documentation for Book API
 //
@@ -23,7 +23,33 @@ import (
 	"net/http"
 )
 
-type BooksResponse struct {
+// just for the sake of documentation with swagger.
+// responses:
+//   200: booksResponse
+
+// swagger:response booksResponse
+type booksResposeWrapper struct {
+	// in:body
+	Body []data.Book
+}
+
+// a single book
+// swagger:response bookResponse
+type bookResponseWrapper struct {
+	// in: body
+	Body data.Book
+}
+
+// swagger:response noContentResponse
+type bookNoContent struct {
+}
+
+// swagger:parameters deleteBook
+type bookIDParameterWrapper struct {
+	// The id of the book to delete from the books database
+	// in:path
+	// required:true
+	ID int `json:"id"`
 }
 
 // Books is a http.Handler

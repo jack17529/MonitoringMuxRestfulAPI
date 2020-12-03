@@ -5,7 +5,12 @@ import (
 	"net/http"
 )
 
-// Adds a single book.
+// swagger:route POST /api/books books saveBook
+// Adds a new book
+// responses:
+//	200: booksResponse
+
+// AddBook saves a single book in the database
 func (b *Books) AddBook(w http.ResponseWriter, r *http.Request) {
 	b.l.Println("Handle POST requests")
 

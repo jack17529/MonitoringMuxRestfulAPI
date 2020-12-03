@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/go-openapi/runtime/middleware"
+
 	"github.com/gorilla/mux"
 	"github.com/rusart/muxprom"
 )
@@ -40,6 +42,14 @@ func main() {
 
 	deleteRouter := r.Methods(http.MethodDelete).Subrouter()
 	deleteRouter.HandleFunc("/api/books/{id:[0-9]+}", bh.DeleteBook)
+
+	// serving the documentation using Redoc middleware
+	opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
+	sh := middleware.Redoc(opts, nil)
+
+	getRouter.Handle("/docs", sh)
+	// one can host a file server using golang
+	getRouter.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
 	l.Fatal(http.ListenAndServe(":8000", r))
 }

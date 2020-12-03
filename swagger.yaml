@@ -1,0 +1,114 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  Author:
+    description: Author Structure
+    properties:
+      firstname:
+        type: string
+        x-go-name: Firstname
+      lastname:
+        type: string
+        x-go-name: Lastname
+    type: object
+    x-go-package: monitoring/data
+  Book:
+    description: |-
+      Book defines the structure for an API Book
+      isbn can be 10 or 13 digits long.
+    properties:
+      author:
+        $ref: '#/definitions/Author'
+      id:
+        description: the id of the book
+        format: int64
+        minimum: 1
+        type: integer
+        x-go-name: ID
+      isbn:
+        description: isbn code of the book
+        minimum: 10
+        type: string
+        x-go-name: Isbn
+      title:
+        description: title of the book
+        type: string
+        x-go-name: Title
+    required:
+    - isbn
+    type: object
+    x-go-package: monitoring/data
+info:
+  description: Documentation for Book API
+  title: Book API
+  version: 1.0.0
+paths:
+  /api/books:
+    get:
+      description: Returns a list of books from the database
+      operationId: listBooks
+      responses:
+        "200":
+          $ref: '#/responses/booksResponse'
+      tags:
+      - books
+    post:
+      description: Adds a new book
+      operationId: saveBook
+      responses:
+        "200":
+          $ref: '#/responses/booksResponse'
+      tags:
+      - books
+    put:
+      description: Update a books details
+      operationId: updateBook
+      responses:
+        "201":
+          $ref: '#/responses/noContentResponse'
+      tags:
+      - books
+  /api/books/{id}:
+    delete:
+      description: Returns a list of books
+      operationId: deleteBook
+      parameters:
+      - description: The id of the book to delete from the books database
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "201":
+          $ref: '#/responses/noContentResponse'
+      tags:
+      - books
+    get:
+      description: Return a list of books from the database
+      operationId: listSingleBook
+      responses:
+        "200":
+          $ref: '#/responses/bookResponse'
+      tags:
+      - books
+produces:
+- application/json
+responses:
+  bookResponse:
+    description: a single book
+    schema:
+      $ref: '#/definitions/Book'
+  booksResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Book'
+      type: array
+  noContentResponse:
+    description: ""
+schemes:
+- http
+swagger: "2.0"
